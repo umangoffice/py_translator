@@ -1,13 +1,10 @@
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 import tkinter as tk
 from tkinter import *
 import pyperclip
 
-translator = Translator()
-
 root = Tk()
 root.title("py_translator")
-
 root.geometry("400x300")
 
 # when submit is pressed, user input stored
@@ -49,13 +46,13 @@ submit_b2.grid(row=4, column=1, padx=5)
 
 result = ""
 def translate():
-    result = translator.translate(user_input, dest=lang_abbrev).text
+    global result
+    result = GoogleTranslator(source='auto', target=lang_abbrev).translate(user_input)
+    T.delete(1.0, tk.END)
     T.insert(tk.END, result)
     
 T = Text(root, height=7, width=38)
 T.grid(row=5, column=0, padx=10, pady=20)
-
-T.insert(tk.END, result)
 
 def copy_to_clipboard():
     pyperclip.copy(T.get(1.0, "end-1c"))
@@ -64,6 +61,6 @@ submit_b4 = Button(root, text="Translate", command=translate, width=25)
 submit_b4.grid(row=6, column=0 , padx=5)
 
 submit_b5 = Button(root, text="Copy", command=copy_to_clipboard, width=7)
-submit_b5.grid(row=5, column=1, padx=5, pady = 5)
+submit_b5.grid(row=5, column=1, padx=5, pady=5)
 
 root.mainloop()
